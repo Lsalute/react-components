@@ -12,6 +12,7 @@ const Modal = styled.div<ModalType>`
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 10;
 `;
 const ModalOverlay = styled.div`
   position: relative;
@@ -99,7 +100,7 @@ const DefaultModal: React.FC<DefaultModalProps> = ({
 }) => {
   return (
     <Modal isShow={isShow}>
-      <ModalOverlay></ModalOverlay>
+      <ModalOverlay onClick={onClose}></ModalOverlay>
       <ModalDialog width={width}>
         <ModalContent>
           <ModalHeader>

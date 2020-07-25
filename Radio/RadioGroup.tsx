@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import Radio from './index';
-import { sizeType, colors } from './type';
+import { sizeType, colors, radioType } from './type';
 
 type WrapperType = {
   block: boolean;
+  _type: radioType;
 };
 const Wrapper = styled.div<WrapperType>`
   ${({ block }) =>
@@ -16,14 +17,32 @@ const Wrapper = styled.div<WrapperType>`
       : css`
           display: flex;
           align-items: center;
+          flex-wrap: wrap;
         `};
-`;
-const Item = styled.div`
-  margin-left: 10px;
 
-  &:first-child {
-    margin-left: 0;
-  }
+  ${({ _type }) =>
+    _type === 'button'
+      ? css`
+          border-radius: 3px;
+          overflow: hidden;
+        `
+      : css``};
+`;
+
+type ItemType = {
+  _type: radioType;
+};
+const Item = styled.div<ItemType>`
+  ${({ _type }) =>
+    _type === 'radio'
+      ? css`
+          margin-right: 10px;
+
+          &:last-child {
+            margin-right: 0;
+          }
+        `
+      : css``}
 `;
 
 export type OptionType = {
@@ -33,6 +52,7 @@ export type OptionType = {
 type RadioGroupProps = {
   options: Array<OptionType>;
   name: string;
+  type?: radioType;
   block?: boolean;
   color?: colors;
   defaultCheckedValue?: string;
@@ -46,11 +66,12 @@ type RadioGroupProps = {
  * option: block, defaultCheckedValue, size, disabled, onChange
  */
 const RadioGroup: React.FC<RadioGroupProps> = ({
-  block = false,
+  name,
   options,
+  type = 'radio',
+  block = false,
   defaultCheckedValue = '',
   color = 'purple',
-  name,
   size = 'md',
   disabled = false,
   onChange,
@@ -60,10 +81,11 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
   );
 
   return (
-    <Wrapper block={block}>
+    <Wrapper block={block} _type={type}>
       {options.map((option, i) => (
-        <Item key={`${option.value}-${i}`}>
+        <Item key={`${option.value}-${i}`} _type={type}>
           <Radio
+            type={type}
             label={option.label}
             id={option.value}
             name={name}

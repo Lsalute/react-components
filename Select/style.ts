@@ -20,13 +20,13 @@ const SelectSizeStyles: sizeTypes = {
 
 const FontSizeStyles: sizeTypes = {
   sm: css`
-    font-size: 12px;
-  `,
-  md: css`
     font-size: 14px;
   `,
-  lg: css`
+  md: css`
     font-size: 16px;
+  `,
+  lg: css`
+    font-size: 18px;
   `,
 };
 

@@ -24,6 +24,18 @@ const Wrapper = styled.div<WrapperType>`
     margin-top: 1px;
     margin-bottom: 0;
   }
+
+  & [class$='indicatorContainer'] {
+    padding: 0 5px;
+  }
+
+  & [class$='placeholder'] {
+    ${({ sizeOption }) => FontSizeStyles[sizeOption]}
+  }
+
+  & [class$='option'] {
+    ${({ sizeOption }) => FontSizeStyles[sizeOption]}
+  }
 `;
 
 //////// styled [End]
@@ -64,13 +76,6 @@ const SelectBox: React.FC<SelectBoxProps> = ({
     optionType | optionType[] | undefined
   >(value);
   //// state[END]
-
-  //// value to label[START]
-  // const valueToLabel = (val: string) => {
-  //   const pick = options.filter((item) => item.value === val);
-  //   return pick[0].label;
-  // };
-  //// value to label[END]
 
   const handleChange = (selectedValue: any) => {
     setSelectedValue(selectedValue);

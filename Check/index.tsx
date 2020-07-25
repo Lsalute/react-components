@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Label from '~/components/Label';
+
 import {
   sizeStyles,
   markSizeStyles,
@@ -20,14 +22,12 @@ const Wrapper = styled.div`
   -ms-user-select: none;
   user-select: none;
 `;
-
-type LabelType = {
+type LabelWrapperType = {
   sizeOption: sizeType;
 };
-const Label = styled.label<LabelType>`
-  display: inline-block;
+const LabelWrapper = styled.div<LabelWrapperType>`
   ${({ sizeOption }) => labelPaddingStyles[sizeOption]};
-  cursor: pointer;
+  ${({ sizeOption }) => textHeightStyles[sizeOption]};
 `;
 
 type InputType = {
@@ -83,7 +83,6 @@ type TextType = {
   sizeOption: sizeType;
 };
 const Text = styled.span<TextType>`
-  ${({ sizeOption }) => textHeightStyles[sizeOption]};
   ${({ sizeOption }) => fontStyles[sizeOption]};
 `;
 ///////////////////////////////// style [END]
@@ -115,19 +114,25 @@ const Check: React.FC<CheckProps> = ({
 }) => {
   return (
     <Wrapper>
-      <Label htmlFor={id} sizeOption={size}>
-        <Input
-          type="checkbox"
-          id={id}
-          name={name}
-          value={value}
-          onChange={onChange}
-          checkColor={color}
-          {...rest}
-        />
-        <CheckMark className="checkmark" sizeOption={size} checkColor={color} />
-        {label && <Text sizeOption={size}>{label}</Text>}
-      </Label>
+      <LabelWrapper sizeOption={size}>
+        <Label labelFor={id} style={{ cursor: 'pointer' }}>
+          <Input
+            type="checkbox"
+            id={id}
+            name={name}
+            value={value}
+            onChange={onChange}
+            checkColor={color}
+            {...rest}
+          />
+          <CheckMark
+            className="checkmark"
+            sizeOption={size}
+            checkColor={color}
+          />
+          {label && <Text sizeOption={size}>{label}</Text>}
+        </Label>
+      </LabelWrapper>
     </Wrapper>
   );
 };

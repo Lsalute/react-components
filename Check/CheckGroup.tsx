@@ -17,13 +17,14 @@ const Wrapper = styled.div<WrapperType>`
       : css`
           display: flex;
           align-items: center;
+          flex-wrap: wrap;
         `}
 `;
 const Item = styled.div`
-  margin-left: 10px;
+  margin-right: 10px;
 
-  &:first-child {
-    margin-left: 0;
+  &:last-child {
+    margin-right: 0;
   }
 `;
 ///////////// styled [END]

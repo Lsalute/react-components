@@ -8,8 +8,8 @@ type sizeTypes = {
 
 const sizeStyles: sizeTypes = {
   sm: css`
-    width: 17px;
-    height: 17px;
+    width: 16px;
+    height: 16px;
   `,
   md: css`
     width: 18px;
@@ -38,13 +38,13 @@ const markSizeStyles: sizeTypes = {
 
 const textHeightStyles: sizeTypes = {
   sm: css`
-    line-height: 18px;
+    line-height: 16px;
   `,
   md: css`
     line-height: 18px;
   `,
   lg: css`
-    line-height: 22px;
+    line-height: 20px;
   `,
 };
 

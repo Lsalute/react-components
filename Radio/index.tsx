@@ -1,16 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Label from '../Label';
 import {
   sizeStyles,
   markSizeStyles,
   textHeightStyles,
   labelPaddingStyles,
   fontStyles,
+  ButtonColorStyles,
+  ButtonActiveStyles,
+  ButtonPaddingStyles,
+  ButtonBorderStyles,
 } from './styles';
-import { colors, colorList, sizeType } from './type';
+import { colors, colorList, sizeType, radioType } from './type';
 
 ////////////////////// styled [START]
+//////// type radio [START]
 const Wrapper = styled.div`
   display: inline-block;
   position: relative;
@@ -19,6 +25,14 @@ const Wrapper = styled.div`
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+`;
+
+type LabelWrapperType = {
+  sizeOption: sizeType;
+};
+const LabelWrapper = styled.div<LabelWrapperType>`
+  ${({ sizeOption }) => labelPaddingStyles[sizeOption]};
+  ${({ sizeOption }) => textHeightStyles[sizeOption]};
 `;
 
 const Input = styled.input`
@@ -35,6 +49,7 @@ const Input = styled.input`
     display: block;
   }
 `;
+
 type CheckMarkType = {
   sizeOption: sizeType;
   radioColor: colors;
@@ -63,22 +78,35 @@ const CheckMark = styled.div<CheckMarkType>`
   }
 `;
 
-type LabelType = {
-  sizeOption: sizeType;
-};
-const Label = styled.label<LabelType>`
-  ${({ sizeOption }) => labelPaddingStyles[sizeOption]};
-  display: inline-block;
-  cursor: pointer;
-`;
-
 type TextType = {
   sizeOption: sizeType;
 };
 const Text = styled.span<TextType>`
-  ${({ sizeOption }) => textHeightStyles[sizeOption]};
   ${({ sizeOption }) => fontStyles[sizeOption]};
 `;
+//////// type radio [END]
+/////// type button [START]
+type ButtonWrapper = {
+  _color: colors;
+  sizeOption: sizeType;
+  isActive: boolean;
+};
+const ButtonWrapper = styled.div<ButtonWrapper>`
+  ${({ _color }) => ButtonColorStyles[_color]};
+  ${({ sizeOption }) => ButtonPaddingStyles[sizeOption]};
+  ${({ _color }) => ButtonBorderStyles[_color]};
+  ${({ isActive, _color }) => (isActive ? ButtonActiveStyles[_color] : '')};
+
+  &:last-child {
+    border-right: 0;
+  }
+
+  & > label {
+    ${({ sizeOption }) => fontStyles[sizeOption]};
+  }
+`;
+/////// type button [END]
+
 ////////////////////// styled [END]
 
 type RadioProps = Omit<
@@ -87,6 +115,7 @@ type RadioProps = Omit<
 > & {
   id: string;
   name: string;
+  type?: radioType;
   checked?: boolean;
   label?: string;
   width?: number;
@@ -102,6 +131,7 @@ type RadioProps = Omit<
 const Radio: React.FC<RadioProps> = ({
   id,
   name,
+  type = 'radio',
   label,
   width = 20,
   value = '',
@@ -113,19 +143,42 @@ const Radio: React.FC<RadioProps> = ({
 }) => {
   return (
     <Wrapper>
-      <Label htmlFor={id} sizeOption={size}>
-        <Input
-          {...rest}
-          type="radio"
-          id={id}
-          name={name}
-          value={value}
-          onChange={onChange}
-          checked={checked}
-        />
-        <CheckMark className="checkmark" radioColor={color} sizeOption={size} />
-        {label && <Text sizeOption={size}>{label}</Text>}
-      </Label>
+      {type === 'radio' ? (
+        <LabelWrapper sizeOption={size}>
+          <Label labelFor={id} style={{ cursor: 'pointer' }}>
+            <Input
+              {...rest}
+              type="radio"
+              id={id}
+              name={name}
+              value={value}
+              onChange={onChange}
+              checked={checked}
+            />
+            <CheckMark
+              className="checkmark"
+              radioColor={color}
+              sizeOption={size}
+            />
+            {label && <Text sizeOption={size}>{label}</Text>}
+          </Label>
+        </LabelWrapper>
+      ) : (
+        <ButtonWrapper _color={color} sizeOption={size} isActive={checked}>
+          <Label labelFor={id} style={{ cursor: 'pointer' }}>
+            <Input
+              {...rest}
+              type="radio"
+              id={id}
+              name={name}
+              value={value}
+              onChange={onChange}
+              checked={checked}
+            />
+            {label}
+          </Label>
+        </ButtonWrapper>
+      )}
     </Wrapper>
   );
 };

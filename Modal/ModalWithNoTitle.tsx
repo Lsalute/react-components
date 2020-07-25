@@ -11,6 +11,7 @@ const Modal = styled.div<ModalType>`
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 10;
 `;
 const ModalOverlay = styled.div`
   position: relative;
@@ -77,12 +78,13 @@ const ModalWithNoTitle: React.FC<ModalWithNoTitle> = ({
 }) => {
   return (
     <Modal isShow={isShow}>
-      <ModalOverlay></ModalOverlay>
+      <ModalOverlay onClick={onClose}></ModalOverlay>
       <ModalDialog width={width}>
         <ModalContent>
           <ModalBody>{children}</ModalBody>
           {isFooter && (
             <ModalFooter align={buttonAlign}>
+              <ModalConfirm onClick={onClose}>{cancelText}</ModalConfirm>
               <ModalConfirm onClick={onSubmit}>{confirmText}</ModalConfirm>
             </ModalFooter>
           )}
